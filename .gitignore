@@ -371,5 +371,8 @@ appsettings.json
 # VS History extension
 .vshistory
 *.vs
-CMS/appsettings.json
 .vscode/settings.json
+CMS/appsettings.json
+
+# Rider IDE 
+.idea/
