@@ -383,3 +383,5 @@ CMS/appsettings.json
 # Ignore qodana.yaml file
 qodana.yaml
 
+# Added gitignore itself to fix future issues about mismatching
+.gitignore
