@@ -18,6 +18,12 @@
             <ValidationSummary class="text-danger" />
             <div class="mb-3">
                 <label for="header" class="form-label">Rubrik:</label> 
+                <label for="menutitle" class="form-label">Header:</label>
+                <InputText id="menutitle" @bind-Value="WebPage.MenuTitle" class="form-control" />
+                <ValidationMessage For="() => WebPage.MenuTitle" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="header" class="form-label">Header:</label> 
                 <InputText id="header" @bind-Value="WebPage.Header" class="form-control" /> 
                 <ValidationMessage For="() => WebPage.Header" class="text-danger" /> 
             </div>
@@ -61,16 +67,6 @@
     [SupplyParameterFromForm]
     public WebPage WebPage { get; set; } = new();
 
-    //[SupplyParameterFromQuery]
-    //public int WebsiteId { get; set; }
-
-    //protected override void OnInitialized()
-    //{
-        // Set the WebPage's WebsiteId to the passed-in parameter
-        //WebPage.WebSiteId = WebsiteId;
-    //}
-
-
     [SupplyParameterFromQuery]
     public int WebSiteId { get; set; }
     
@@ -84,8 +80,7 @@
         context.WebPages.Add(WebPage);
         await context.SaveChangesAsync();
         NavigationManager.NavigateTo($"/webpages/createmulti?webpageid={WebPage.WebPageId}");
-        
-        //NavigationManager.NavigateTo($"webpages/details?WebPageId={WebPage.WebPageId}");
+       // NavigationManager.NavigateTo($"webpages/details?WebPageId={WebPage.WebPageId}");
     }
     
 }

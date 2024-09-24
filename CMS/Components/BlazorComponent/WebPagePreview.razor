@@ -1,0 +1,46 @@
+@rendermode InteractiveServer
+
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+@using Markdig
+
+<div>
+    @if (webpage is null)
+    {
+        <p>
+            <em>Loading...</em>
+        </p>
+    }
+    else
+    {
+        <div style="width:100%;justify-content: center;align-content: center; text-align: center; height: auto">
+
+            <CustomHeader text="@webpage.Header"></CustomHeader>
+
+            @if (webpage.ImageUrl != null)
+            {
+                <img src="@webpage.ImageUrl" style="object-fit:scale-down;margin:auto; max-width:min(80%,900px)" alt="image"/>
+            }
+            <div style="margin-top: 20px; margin-bottom: 20px;">
+                <p style="margin:auto;max-width:900px"> @((MarkupString)Markdown.ToHtml(webpage.Body)) </p>
+            </div>
+            @webpage.Footer
+        </div>
+    }
+</div>
+
+@code {
+   private WebPage? webpage;
+   [Parameter] public int WebPageId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        webpage = await context.WebPages.FirstOrDefaultAsync(m => m.WebPageId == WebPageId);
+
+        if (webpage is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

@@ -5,6 +5,7 @@ using CMS.Models;
 using CMS.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft;
 
 namespace CMS.Seed
 {
@@ -13,7 +14,9 @@ namespace CMS.Seed
 
         private static Faker faker = new Faker();
         private static Random random = new Random();
-        public static async Task InitAsync(ApplicationDbContext context, ICreateUserService registerService, RoleManager<IdentityRole> roleManager)
+
+        public static async Task InitAsync(ApplicationDbContext context, ICreateUserService registerService,
+            RoleManager<IdentityRole> roleManager)
         {
 
             if (context.WebSites.Any())
@@ -50,23 +53,37 @@ namespace CMS.Seed
             var result1 = await registerService.CreateUser(@"test@test.com", "pSrkXHN6z8s%KHW@");
             Console.WriteLine(result1);
 
-            var userId = context.Users.Where(u => EF.Functions.Like(u.Email, "test@test.com")).Select(u => u.Id).FirstOrDefault();
+            var userId = context.Users.Where(u => EF.Functions.Like(u.Email, "test@test.com")).Select(u => u.Id)
+                .FirstOrDefault();
             if (userId == null)
             {
                 return;
             }
 
+        
+            //var websites = CreateWebSites(userId);
+            //await context.AddRangeAsync(websites);
 
-            var menus = CreateWebSites(userId);
+            var jsonWebsite = AddJsonWebSites(userId);
+            await context.AddRangeAsync(jsonWebsite);
 
-            await context.AddRangeAsync(menus);
             context.SaveChanges();
-
         }
 
-        private static ICollection<WebSite> CreateWebSites(string OwnerId)
+        private static ICollection<WebSite> AddJsonWebSites(string OwnerId)
         {
+            string json = System.IO.File.ReadAllText("Seed/SeedData.json"); 
+            ICollection<WebSite> jsonWebsite = Newtonsoft.Json.JsonConvert.DeserializeObject<ICollection<WebSite>>(json);
+            foreach (var webSite in jsonWebsite)
+            {
+                webSite.UserId = OwnerId;
+            }
 
+            return jsonWebsite;
+        }
+
+    private static ICollection<WebSite> CreateWebSites(string OwnerId)
+        {
             var list = new List<WebSite>();
 
             for (int i = 0; i < 10; i++)

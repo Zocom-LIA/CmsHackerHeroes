@@ -8,6 +8,10 @@ namespace CMS.Entities
         public int WebPageId { get; set; }
         public int WebSiteId { get; set; }
         public WebSite WebSite { get; set; }
+        
+        [Required] 
+        public string MenuTitle { get; set; }
+        
         [Required]
         public string Header { get; set; } 
         
