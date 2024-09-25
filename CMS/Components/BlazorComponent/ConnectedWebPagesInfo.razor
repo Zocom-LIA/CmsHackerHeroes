@@ -1,0 +1,39 @@
+﻿@using CMS.Services
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+@inject IDbContextFactory<CMS.Data.ApplicationDbContext> DbFactory
+
+@if (WebPages == null || !WebPages.Any())
+{
+    <p>Webbsiten har inga webbsidor.</p>
+}
+else
+{
+    <div class="webpageinfo">
+    <p>Tillhörande webbsidor</p>
+    <div class="grid">
+        <QuickGrid Items="@WebPages.AsQueryable()" TItem="WebPage">
+            <PropertyColumn Property="@(c => c.WebPageId)" Title="Id" Sortable="true" />
+            <PropertyColumn Property="@(c => c.Header)" Title="Rubrik" Sortable="true" />
+        </QuickGrid>
+    </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int WebSiteId { get; set; }
+
+    List<WebPage>? WebPages = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var context = await DbFactory.CreateDbContextAsync();
+        
+        WebPages = await context.WebPages
+            .Where(wp => wp.WebSiteId == WebSiteId)
+            .ToListAsync();
+    }
+}
+
+

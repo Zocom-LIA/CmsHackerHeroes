@@ -1,0 +1,15 @@
+﻿/* CSS for the webpageinfo container */
+.webpageinfo {
+	background-color: #f2f2f2; /* Light grey background */
+	padding: 10px;
+	border-radius: 5px;
+}
+
+/* Alternating row colors for QuickGrid */
+.quick-grid tr:nth-child(odd) {
+	background-color: white; /* White background for odd rows */
+}
+
+.quick-grid tr:nth-child(even) {
+	background-color: #f9f9f9; /* Slightly lighter grey for even rows */
+}
