@@ -6,15 +6,15 @@
 @using Microsoft.EntityFrameworkCore
 @inject IDbContextFactory<ApplicationDbContext> DbContextFactory
 
-<h3>WebPage Content Preview</h3>
+<h3>Förhandsgranskning Webbsida</h3>
 
 @if (contentList == null)
 {
-    <p>Loading...</p>
+    <p>Laddar...</p>
 }
 else if (contentList.Count == 0)
 {
-    <p>No content available for this webpage.</p>
+    <p>Inget innehåll tillgängligt för denna webbsida.</p>
 }
 else
 {
