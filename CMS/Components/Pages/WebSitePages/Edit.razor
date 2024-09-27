@@ -1,4 +1,4 @@
-﻿@page "/WebSites/edit"
+﻿@page "/websites/edit"
 @attribute [Authorize]
 @inject IDbContextFactory<CMS.Data.ApplicationDbContext> DbFactory
 @inject NavigationManager NavigationManager
@@ -57,7 +57,7 @@ else
                     <ValidationMessage For="() => WebSite.UserId" class="text-danger" />
                 </div>
 
-                <SetLandingPage WebSiteId="@WebSiteId"/>
+                <SetLandingPage WebSiteId="@WebSiteId" />
 
                 <br />
                 <button type="submit" class="btn btn-primary">Spara</button>

@@ -1,15 +1,47 @@
-﻿/* CSS for the webpageinfo container */
+﻿/*Komponenten är lika bred som dess vidaste komponent*/
+
 .webpageinfo {
-	background-color: #f2f2f2; /* Light grey background */
+	background-color: #f2f2f2;
 	padding: 10px;
 	border-radius: 5px;
+	display: flex;
+	flex-direction: column;
+	width: max-content;
+	border: 2px solid black;
 }
 
-/* Alternating row colors for QuickGrid */
-.quick-grid tr:nth-child(odd) {
-	background-color: white; /* White background for odd rows */
+.webpageinfo > * {
+	flex-shrink: 0;
 }
 
-.quick-grid tr:nth-child(even) {
-	background-color: #f9f9f9; /* Slightly lighter grey for even rows */
+.grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
 }
+
+.grid-item {
+	flex: 1 1 calc(50% - 5px);
+	max-width: calc(50% - 5px);
+}
+
+::deep tr {
+	height: 1.8rem;
+}
+
+::deep tr:nth-child(odd) {
+	background-color: #f2f2f2;
+}
+
+::deep tr:nth-child(even) {
+	background-color: white;
+}
+
+.webpageinfo p {
+	background-color: #007bff;
+	color: white;
+	padding: 5px;
+	margin-bottom: 10px;
+	border-radius: 10px;
+}
+
