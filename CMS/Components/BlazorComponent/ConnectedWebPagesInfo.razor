@@ -3,20 +3,16 @@
 
 @inject IDbContextFactory<CMS.Data.ApplicationDbContext> DbFactory
 
-@if (WebPages == null || !WebPages.Any())
-{
-    <p>Webbsiten har inga webbsidor.</p>
-}
-else
+@if (WebPages?.Any() == true)
 {
     <div class="webpageinfo">
-    <p>Tillhörande webbsidor</p>
-    <div class="grid">
-        <QuickGrid Items="@WebPages.AsQueryable()" TItem="WebPage">
-            <PropertyColumn Property="@(c => c.WebPageId)" Title="Id" Sortable="true" />
-            <PropertyColumn Property="@(c => c.Header)" Title="Rubrik" Sortable="true" />
-        </QuickGrid>
-    </div>
+        <p>Tillhörande webbsidor</p>
+        <div class="grid">
+            <QuickGrid Items="@WebPages.AsQueryable()" TItem="WebPage">
+                <PropertyColumn Property="@(c => c.WebPageId)" Title="Id" />
+                <PropertyColumn Property="@(c => c.Header)" Title="Rubrik" />
+            </QuickGrid>
+        </div>
     </div>
 }
 
@@ -29,7 +25,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         var context = await DbFactory.CreateDbContextAsync();
-        
+
         WebPages = await context.WebPages
             .Where(wp => wp.WebSiteId == WebSiteId)
             .ToListAsync();

@@ -76,7 +76,7 @@ namespace CMS
                 app.UseMigrationsEndPoint();
             }
 
-            //app.SeedDataAsync();
+            app.SeedDataAsync();
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();

@@ -4,7 +4,7 @@
 
 @if (WebPages == null || !WebPages.Any())
 {
-    <p>Webbsiten har inga webbsidor.</p>
+    <p>Startsida: </p><br /><p>Webbsiten har inga webbsidor</p>
 }
 else
 {
@@ -20,6 +20,7 @@ else
     </div>
 }
 
+
 @code {
     [Parameter]
     public int WebSiteId { get; set; }
@@ -30,26 +31,29 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        using var context = DbFactory.CreateDbContext();
-
-        // Hämta alla webpages som tillhör WebSiteId
-        WebPages = await context.WebPages
-            .Where(wp => wp.WebSiteId == WebSiteId)
-            .ToListAsync();
-
-        // Hämta websitens data
-        var website = await context.WebSites
-            .FirstOrDefaultAsync(ws => ws.WebSiteId == WebSiteId);
-
-        if (website?.LandingPage != null)
+        if (WebSiteId > 0)
         {
-            selectedWebPageId = website.LandingPage;
+            using var context = DbFactory.CreateDbContext();
 
-            // Hämta Header(rubrik, vi får byta namn senare) för den valda startsidan
-            var landingPage = await context.WebPages
-                .FirstOrDefaultAsync(wp => wp.WebPageId == website.LandingPage);
+            // Hämta alla webpages som tillhör WebSiteId
+            WebPages = await context.WebPages
+                .Where(wp => wp.WebSiteId == WebSiteId)
+                .ToListAsync();
 
-            landingPageHeader = landingPage?.Header;
+            // Hämta websitens data
+            var website = await context.WebSites
+                .FirstOrDefaultAsync(ws => ws.WebSiteId == WebSiteId);
+
+            if (website?.LandingPage != null)
+            {
+                selectedWebPageId = website.LandingPage;
+
+                // Hämta Rubrik för den valda startsidan
+                var landingPage = await context.WebPages
+                    .FirstOrDefaultAsync(wp => wp.WebPageId == website.LandingPage);
+
+                landingPageHeader = landingPage?.Header;
+            }
         }
     }
 
@@ -67,3 +71,4 @@ else
         }
     }
 }
+
