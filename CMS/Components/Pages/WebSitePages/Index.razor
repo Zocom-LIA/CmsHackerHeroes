@@ -1,6 +1,7 @@
 ﻿@page "/websites"
 @attribute [Authorize]
 
+@using CMS.Shared
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using CMS.Data
 
@@ -11,6 +12,9 @@
 @implements IAsyncDisposable
 
 <PageTitle>Mina webbsites</PageTitle>
+
+<Breadcrumbs crumbs="@(new List<(string, string)> { ("Hem", "/") })" />
+
 
 <h3>Mina webbsites</h3>
 
